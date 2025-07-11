@@ -34,4 +34,6 @@ message Port {
   map<string, string> properties = 5;
   // The hardware ID (serial number) of the board attached to the port.
   string hardware_id = 6;
+  // Test
+  string test = 7;
 }
