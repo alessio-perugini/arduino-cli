@@ -1,0 +1,30 @@
+# Source: https://github.com/arduino/tooling-project-assets/blob/main/workflow-templates/release-go-task.md
+name: Release
+
+env:
+  # As defined by the Taskfile's PROJECT_NAME variable
+  PROJECT_NAME: arduino-cli
+  # As defined by the Taskfile's DIST_DIR variable
+  DIST_DIR: dist
+  # The project's folder on Arduino's download server for uploading builds
+  AWS_PLUGIN_TARGET: /arduino-cli/
+  AWS_REGION: "us-east-1"
+  ARTIFACT_NAME: dist
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  create-release-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: bufbuild/buf-action@v1
+        with:
+          token: ${{ secrets.BUF_TOKEN }}
+          push: true
